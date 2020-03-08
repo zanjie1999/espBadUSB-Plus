@@ -27,6 +27,11 @@ namespace duckparser {
         keyboard::write(str, len);
     }
 
+    void release() {
+        keyboard::release();
+        Mouse.release();
+    }
+
     void press(const char* str, size_t len) {
         // character
         if (len == 1) keyboard::press(str);
@@ -83,11 +88,6 @@ namespace duckparser {
 
         // Utf8 character
         else keyboard::press(str);
-    }
-
-    void release() {
-        keyboard::release();
-        Mouse.release();
     }
 
     unsigned int toInt(const char* str, size_t len) {
