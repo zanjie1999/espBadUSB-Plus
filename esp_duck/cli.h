@@ -1,10 +1,3 @@
-/*!
-   \file esp_duck/cli.h
-   \brief Command line interface header
-   \author Stefan Kremser
-   \copyright MIT License
- */
-
 #pragma once
 
 #include <Arduino.h> // String, bool

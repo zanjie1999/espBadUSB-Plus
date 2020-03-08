@@ -1,10 +1,3 @@
-/*!
-    \file esp_duck/com.cpp
-    \brief Communication Module source
-    \author Stefan Kremser
-    \copyright MIT License
- */
-
 #include "com.h"
 
 #include <Wire.h> // Arduino i2c

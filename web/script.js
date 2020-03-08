@@ -1,9 +1,3 @@
-/*
-   Copyright (c) 2019 Stefan Kremser
-   This software is licensed under the MIT License. See the license file for details.
-   Source: github.com/spacehuhn/WiFiDuck
- */
-
 // ===== Helper Functions ===== //
 function log(msg) {
   console.log(msg);
@@ -57,10 +51,6 @@ function status(mode) {
 // ===== Web Socket ===== //
 function log_ws(msg) {
   log("[WS] " + msg);
-}
-
-function set_version(str) {
-  E("version").innerHTML = str;
 }
 
 var ws = null; // web socket instance
@@ -122,7 +112,6 @@ function ws_init() {
     status("connected");
 
     ws_send("close", log_ws, true);
-    ws_send("version", set_version);
 
     ws_connected();
   };

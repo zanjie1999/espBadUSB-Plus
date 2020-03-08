@@ -1,14 +1,9 @@
-/*
-   Copyright (c) 2019 Stefan Kremser
-   This software is licensed under the MIT License. See the license file for details.
-   Source: github.com/spacehuhn/SimpleCLI
- */
-
 #include "duckparser.h"
 
 #include "config.h"
 // #include "debug.h"
 #include "keyboard.h"
+#include "Mouse.h"
 #include "led.h"
 
 extern "C" {
@@ -19,6 +14,7 @@ namespace duckparser {
     // ====== PRIVATE ===== //
     bool inString  = false;
     bool inComment = false;
+    bool inText  = false;
 
     int defaultDelay = 5;
     int repeatNum    = 0;
@@ -75,12 +71,22 @@ namespace duckparser {
         else if (compare(str, len, "ALT", CASE_SENSETIVE)) keyboard::pressModifier(KEY_MOD_LALT);
         else if (compare(str, len, "WINDOWS", CASE_SENSETIVE) || compare(str, len, "GUI", CASE_SENSETIVE)) keyboard::pressModifier(KEY_MOD_LMETA);
 
+        // Mouse
+        else if (compare(str, len, "CLICK", CASE_SENSETIVE) || compare(str, len, "CLICK_LEFT", CASE_SENSETIVE) || compare(str, len, "MOUSE_CLICK_LEFT", CASE_SENSETIVE) || compare(str, len, "MOUSE_CLICK", CASE_SENSETIVE)) Mouse.click();
+        else if (compare(str, len, "CLICK_RIGHT", CASE_SENSETIVE) || compare(str, len, "MOUSE_CLICK_RIGHT", CASE_SENSETIVE)) Mouse.click(MOUSE_RIGHT);
+        else if (compare(str, len, "CLICK_MIDDLE", CASE_SENSETIVE) || compare(str, len, "MOUSE_CLICK_MIDDLE", CASE_SENSETIVE)) Mouse.click(MOUSE_MIDDLE);
+
+        else if (compare(str, len, "PRESS", CASE_SENSETIVE) || compare(str, len, "PRESS_LEFT", CASE_SENSETIVE) || compare(str, len, "MOUSE_PRESS_LEFT", CASE_SENSETIVE)) Mouse.press();
+        else if (compare(str, len, "PRESS_RIGHT", CASE_SENSETIVE) || compare(str, len, "MOUSE_PRESS_RIGHT", CASE_SENSETIVE)) Mouse.press(MOUSE_RIGHT);
+        else if (compare(str, len, "PRESS_MIDDLE", CASE_SENSETIVE) || compare(str, len, "MOUSE_PRESS_MIDDLE", CASE_SENSETIVE)) Mouse.press(MOUSE_MIDDLE);
+
         // Utf8 character
         else keyboard::press(str);
     }
 
     void release() {
         keyboard::release();
+        Mouse.release();
     }
 
     unsigned int toInt(const char* str, size_t len) {
@@ -149,8 +155,19 @@ namespace duckparser {
             char last_char = n->str[n->len];
             bool line_end  = last_char == '\r' || last_char == '\n';
 
+            // TEXT (-> type each character)
+            if (inText || compare(cmd->str, cmd->len, "TEXT", CASE_SENSETIVE)) {
+                if (inText) {
+                    type(n->str, n->len);
+                } else {
+                    type(line_str, line_str_len);
+                }
+
+                inText = !compare(cmd->str, cmd->len, "TEXTEND", CASE_SENSETIVE);
+            }
+
             // REM (= Comment -> do nothing)
-            if (inComment || compare(cmd->str, cmd->len, "REM", CASE_SENSETIVE)) {
+            else if (inComment || compare(cmd->str, cmd->len, "REM", CASE_SENSETIVE)) {
                 inComment    = !line_end;
                 ignore_delay = true;
             }
@@ -198,6 +215,32 @@ namespace duckparser {
                 }
 
                 inString = !line_end;
+            }
+
+            // MOVE (-> mouse move)
+            else if (compare(cmd->str, cmd->len, "MOUSE", CASE_SENSETIVE)) {
+                String strxy = String(line_str);
+                int indexsp = strxy.indexOf(",");
+                int x = strxy.substring(0, indexsp).toInt();
+                int y = strxy.substring(indexsp + 1).toInt();
+                while (x > 127 || x < -127 || y > 127 || y < -127)
+                {
+                    if (x > 127) {
+                        Mouse.move(127, 0);
+                        x -= 127;
+                    } else if (x < -127) {
+                        Mouse.move(-127, 0);
+                        x += 127;
+                    }
+                    if (y > 127) {
+                        Mouse.move(0, 127);
+                        y -= 127;
+                    } else if (y < -127){
+                        Mouse.move(0, -127);
+                        y += 127;
+                    }
+                }
+                Mouse.move(x,y);
             }
 
             // LED

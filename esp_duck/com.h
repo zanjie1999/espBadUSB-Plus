@@ -1,10 +1,3 @@
-/*!
-    \file esp_duck/com.h
-    \brief Communication Module header
-    \author Stefan Kremser
-    \copyright MIT License
- */
-
 #pragma once
 
 /*! \typedef com_callback

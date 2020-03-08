@@ -1,11 +1,4 @@
-/*!
-    \file atmega_duck/com.h
-    \brief Communication Module header
-    \author Stefan Kremser
-    \copyright MIT License
- */
-
- #pragma once
+#pragma once
 
  #include <stddef.h> // size_t
 
