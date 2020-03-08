@@ -79,6 +79,7 @@ namespace duckparser {
         else if (compare(str, len, "PRESS", CASE_SENSETIVE) || compare(str, len, "PRESS_LEFT", CASE_SENSETIVE) || compare(str, len, "MOUSE_PRESS_LEFT", CASE_SENSETIVE)) Mouse.press();
         else if (compare(str, len, "PRESS_RIGHT", CASE_SENSETIVE) || compare(str, len, "MOUSE_PRESS_RIGHT", CASE_SENSETIVE)) Mouse.press(MOUSE_RIGHT);
         else if (compare(str, len, "PRESS_MIDDLE", CASE_SENSETIVE) || compare(str, len, "MOUSE_PRESS_MIDDLE", CASE_SENSETIVE)) Mouse.press(MOUSE_MIDDLE);
+        else if (compare(str, len, "RELEASE", CASE_SENSETIVE)) release();
 
         // Utf8 character
         else keyboard::press(str);
