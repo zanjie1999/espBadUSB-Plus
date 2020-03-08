@@ -2,6 +2,8 @@
 
 ![增加i2c](https://raw.githubusercontent.com/zanjie1999/espUSB-Plus/master/img/add-i2c.jpg)
 
+旧版本请看 https://github.com/zanjie1999/espUSB
+
 ## Overview
 
 - [Disclaimer](#disclaimer)
