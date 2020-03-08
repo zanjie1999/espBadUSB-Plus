@@ -74,7 +74,7 @@ namespace duckparser {
         else if (compare(str, len, "CTRL", CASE_SENSETIVE) || compare(str, len, "CONTROL", CASE_SENSETIVE)) keyboard::pressModifier(KEY_MOD_LCTRL);
         else if (compare(str, len, "SHIFT", CASE_SENSETIVE)) keyboard::pressModifier(KEY_MOD_LSHIFT);
         else if (compare(str, len, "ALT", CASE_SENSETIVE)) keyboard::pressModifier(KEY_MOD_LALT);
-        else if (compare(str, len, "WINDOWS", CASE_SENSETIVE) || compare(str, len, "GUI", CASE_SENSETIVE)) keyboard::pressModifier(KEY_MOD_LMETA);
+        else if (compare(str, len, "WINDOWS", CASE_SENSETIVE) || compare(str, len, "GUI", CASE_SENSETIVE) || compare(str, len, "WIN", CASE_SENSETIVE)) keyboard::pressModifier(KEY_MOD_LMETA);
 
         // Mouse
         else if (compare(str, len, "CLICK", CASE_SENSETIVE) || compare(str, len, "CLICK_LEFT", CASE_SENSETIVE) || compare(str, len, "MOUSE_CLICK_LEFT", CASE_SENSETIVE) || compare(str, len, "MOUSE_CLICK", CASE_SENSETIVE)) Mouse.click();
@@ -219,7 +219,7 @@ namespace duckparser {
             }
 
             // MOVE (-> mouse move)
-            else if (compare(cmd->str, cmd->len, "MOUSE", CASE_SENSETIVE)) {
+            else if (compare(cmd->str, cmd->len, "MOUSE", CASE_SENSETIVE) || compare(cmd->str, cmd->len, "MOVE", CASE_SENSETIVE)) {
                 String strxy = String(line_str);
                 int indexsp = strxy.indexOf(",");
                 int x = strxy.substring(0, indexsp).toInt();
@@ -243,6 +243,23 @@ namespace duckparser {
                 }
                 Mouse.move(x,y);
             }
+
+            // SCROLL (-> mouse scroll)
+            else if (compare(cmd->str, cmd->len, "SCROLL", CASE_SENSETIVE)) {
+                int y = String(line_str).toInt();
+                while (y > 127 || y < -127)
+                {
+                    if (y > 127) {
+                        Mouse.move(0, 0, 127);
+                        y -= 127;
+                    } else if (y < -127){
+                        Mouse.move(0, 0, -127);
+                        y += 127;
+                    }
+                }
+                Mouse.move(x,y);
+            }
+            
 
             // LED
             else if (compare(cmd->str, cmd->len, "LED", CASE_SENSETIVE)) {
