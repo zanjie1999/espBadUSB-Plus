@@ -1,0 +1,5 @@
+{
+    "board": "arduino:avr:leonardo",
+    "sketch": "atmega_duck.ino",
+    "port": "COM49"
+}

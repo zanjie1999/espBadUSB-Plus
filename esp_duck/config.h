@@ -36,12 +36,12 @@
 #define BOOT_MAGIC_NUM    1234567890
 
 /*! ===== WiFi Settings ===== */
-#define WIFI_SSID "wifiduck"
-#define WIFI_PASSWORD "wifiduck"
+#define WIFI_SSID "Sparkle"
+#define WIFI_PASSWORD "password"
 #define WIFI_CHANNEL "1"
 
-#define HOSTNAME "wifiduck"
-#define URL "wifi.duck"
+#define HOSTNAME "espUSB"
+#define URL "espUSB.lan"
 
 /*! ========== Safty checks ========== */
 #if !defined(ENABLE_I2C) && !defined(ENABLE_SERIAL)

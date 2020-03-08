@@ -6,6 +6,7 @@
 
 #include "config.h"
 #include "debug.h"
+#include <ESP8266WiFiMulti.h>
 
 #include "com.h"
 #include "duckscript.h"
@@ -14,10 +15,30 @@
 #include "settings.h"
 #include "cli.h"
 
+ESP8266WiFiMulti WiFiMulti;
+
 void setup() {
+    pinMode(2, OUTPUT);
+    digitalWrite(2, LOW);
+
     debug_init();
 
-    delay(200);
+    WiFi.mode(WIFI_AP_STA);
+    WiFi.hostname(HOSTNAME);
+    //  Connect AP here
+    // WiFiMulti.addAP("name", "password");
+    WiFiMulti.addAP("Derpy", "Sparkle:Yay");
+    WiFiMulti.addAP("weslie", "zaj&1999");
+    WiFiMulti.addAP("GZ_EBI", "GZepro1234");
+    WiFiMulti.addAP("Sparkle", "password");
+    int tryNum = 0;
+    while (WiFiMulti.run() != WL_CONNECTED) {
+        if (tryNum > 10) {
+            break;
+        }
+        delay(500);
+        tryNum++;
+    }
 
     com::begin();
 
@@ -35,15 +56,9 @@ void setup() {
     delay(10);
     com::update();
 
-    debug("\n[~~~ WiFi Duck v");
-    debug(VERSION);
-    debugln(" Started! ~~~]");
-    debugln("    __");
-    debugln("___( o)>");
-    debugln("\\ <_. )");
-    debugln(" `---'   hjw\n");
-
     duckscript::run(settings::getAutorun());
+    
+    digitalWrite(2, HIGH);
 }
 
 void loop() {
