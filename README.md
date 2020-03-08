@@ -1,30 +1,6 @@
-# WiFiDuck
+# Esp USB Plus
 
-<p align="center">
-<img alt="WiFi Duck Logo" src="https://raw.githubusercontent.com/spacehuhn/WiFiDuck/master/img/logo.png" width="200">
-</p>
-
-<p align="center">
-<b>Keystroke injection attack platform</b>
-<br>
-A worthy successor of the <a href="https://github.com/spacehuhn/wifi_ducky/">WiFi Ducky</a> project
-<br>
-<br>
-  🐦 <a href="https://twitter.com/spacehuhn">Twitter</a>
-| 📺 <a href="https://www.youtube.com/spacehuhn">YouTube</a>
-| 🌍 <a href="https://spacehuhn.io">spacehuhn.io</a>
-<br>
-<br>
-<br>
-<img alt="running example script" src="https://raw.githubusercontent.com/spacehuhn/WiFiDuck/master/img/usage.png" width="400px">
-<br>
-<br>
-<br>
-<a href="https://www.youtube.com/watch?v=sSJuGXd8QRk">
-<img alt="running example script" src="https://raw.githubusercontent.com/spacehuhn/WiFiDuck/master/img/showcase.gif">
-<br>
-<b>Watch the full video</a></b>
-</p>
+![增加i2c](https://raw.githubusercontent.com/zanjie1999/espUSB-Plus/master/img/add-i2c.jpg)
 
 ## Overview
 
